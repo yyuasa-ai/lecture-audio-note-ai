@@ -1,0 +1,590 @@
+/* ==========================================================================
+   講義音声ノートAI - デザインシステム & スタイルシート
+   ========================================================================== */
+
+/* 1. カラーパレット & デザイン変数定義 */
+:root {
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-border: rgba(255, 255, 255, 0.4);
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), 0 1px 8px rgba(0, 0, 0, 0.02);
+    
+    /* ブランドカラー */
+    --primary: #4f46e5;       /* インディゴ */
+    --primary-hover: #4338ca;
+    --primary-light: #e0e7ff;
+    
+    --accent: #10b981;        /* エメラルド */
+    --accent-hover: #059669;
+    --accent-light: #d1fae5;
+    
+    --danger: #ef4444;        /* レッド */
+    --danger-hover: #dc2626;
+    --danger-light: #fee2e2;
+
+    --warning: #f59e0b;       /* アンバー */
+    --warning-light: #fef3c7;
+    
+    /* テキスト・中立カラー */
+    --text-main: #1e293b;     /* スレート 800 */
+    --text-muted: #64748b;    /* スレート 500 */
+    --border-color: #e2e8f0;  /* スレート 200 */
+    --input-bg: #f8fafc;      /* スレート 50 */
+    
+    /* フォント設定 */
+    --font-base: 'Outfit', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* 2. リセット & 基本設定 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-base);
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-main);
+    min-height: 100vh;
+    line-height: 1.6;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* 3. レイアウトコンテナ */
+.app-container {
+    width: 100%;
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* 4. ヘッダー */
+.app-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo-badge {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.1);
+}
+
+.app-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+/* 5. カード共通スタイル (Glassmorphism調) */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07), 0 3px 10px rgba(0, 0, 0, 0.02);
+}
+
+.card h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #0f172a;
+}
+
+.card-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+/* 6. フォーム要素 */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.form-input {
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--input-bg);
+    color: var(--text-main);
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+}
+
+/* APIキーの入力ラッパー (パスワード切り替え付き) */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper .form-input {
+    width: 100%;
+    padding-right: 48px;
+}
+
+.btn-toggle-view {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 4px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.btn-toggle-view:hover {
+    opacity: 1;
+}
+
+/* 7. ドラッグ＆ドロップファイルアップローダー */
+.file-drop-zone {
+    position: relative;
+    border: 2px dashed #cbd5e1;
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    background: var(--input-bg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.file-drop-zone:hover,
+.file-drop-zone.dragover {
+    border-color: var(--primary);
+    background: rgba(79, 70, 229, 0.02);
+}
+
+.file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.upload-icon {
+    font-size: 2.2rem;
+    display: inline-block;
+    margin-bottom: 10px;
+    transition: transform 0.2s ease;
+}
+
+.file-drop-zone:hover .upload-icon {
+    transform: translateY(-3px);
+}
+
+.main-prompt {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+.sub-prompt {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.file-info-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 8. ボタンデザイン */
+.btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 5px;
+}
+
+.btn {
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    user-select: none;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+}
+
+.btn-outline-danger {
+    background: transparent;
+    color: var(--danger);
+    border: 1.5px solid var(--danger);
+}
+
+.btn-outline-danger:hover {
+    background: var(--danger-light);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+}
+
+.btn-outline:hover {
+    background: var(--primary-light);
+}
+
+.test-connection-wrapper {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.test-result-box {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.test-result-box.success {
+    background: var(--accent-light);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.test-result-box.error {
+    background: var(--danger-light);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.test-result-status {
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.test-result-box.success .test-result-status {
+    color: var(--accent-hover);
+}
+
+.test-result-box.error .test-result-status {
+    color: var(--danger-hover);
+}
+
+.test-result-response {
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.6);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px dashed rgba(0, 0, 0, 0.05);
+}
+
+.btn-accent {
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.btn-accent:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-block {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.btn-copy {
+    background: #ffffff;
+    border: 1.5px solid var(--border-color);
+    color: var(--text-main);
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+}
+
+.btn-copy:hover {
+    background: var(--input-bg);
+    border-color: var(--text-muted);
+}
+
+.btn-copy.copied {
+    background: var(--accent-light);
+    color: var(--accent-hover);
+    border-color: var(--accent);
+}
+
+/* 9. ステータス・エラー表示 */
+.status-indicator {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 10px;
+    min-height: 20px;
+    transition: all 0.3s ease;
+}
+
+.status-indicator.success {
+    color: var(--accent-hover);
+}
+
+.status-indicator.error {
+    color: var(--danger-hover);
+}
+
+.error-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--danger-light);
+    border: 1.5px solid rgba(239, 68, 68, 0.2);
+    border-radius: 16px;
+    padding: 16px 20px;
+    color: var(--danger-hover);
+    animation: slideIn 0.3s ease;
+}
+
+.error-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.error-message {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* 10. ローダー (くるくるアニメーション) */
+.loader {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 11. 結果エリア */
+.result-card {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    animation: fadeIn 0.4s ease;
+}
+
+.result-header {
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 5px;
+}
+
+.result-header h2 {
+    font-size: 1.4rem;
+}
+
+#result-title-text {
+    color: var(--primary);
+}
+
+.result-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.result-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-block-header h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.result-body {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.result-body.font-highlight {
+    font-weight: 500;
+    border-left: 4px solid var(--primary);
+}
+
+/* 12. フッター */
+.app-footer {
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: 10px;
+}
+
+/* 13. アニメーション定義 */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* 14. ユーティリティクラス */
+.hidden {
+    display: none !important;
+}
+
+/* 15. レスポンシブ設計 (スマホ最適化) */
+@media (max-width: 600px) {
+    body {
+        padding: 20px 10px;
+    }
+    .card {
+        padding: 20px;
+        border-radius: 16px;
+    }
+    .app-header h1 {
+        font-size: 1.8rem;
+    }
+    .btn-row {
+        flex-direction: column;
+    }
+    .btn-row button {
+        width: 100%;
+    }
+}
